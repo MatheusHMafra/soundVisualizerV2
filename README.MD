@@ -13,7 +13,7 @@ Um visualizador de música simples usando three.js. O visualizador é capaz de l
 
 ## Como usar
 
-Para usar o visualizador, basta abrir o arquivo index.html (Ou entrar nesse [link](teste.com)) no seu navegador. O visualizador irá pedir para você selecionar um arquivo de áudio ou vídeo. <br>
+Para usar o visualizador, basta abrir o arquivo index.html (Ou vai neste [link](https://matheushmafra.github.io/soundVisualizerV2/)) no seu navegador. O visualizador irá pedir para você selecionar um arquivo de áudio ou vídeo. <br>
 Após selecionar o arquivo, o visualizador irá começar a tocar o arquivo e criar uma animação baseada na música
 </details>
 
@@ -29,7 +29,7 @@ A simple music visualizer using three.js. The visualizer is capable of reading a
 
 ## How to use
 
-To use the visualizer, just open the index.html file (Or enter this [link](teste.com)) in your browser. The visualizer will ask you to select an audio or video file. <br>
+To use the visualizer, just open the index.html file (Or go into this [link](https://matheushmafra.github.io/soundVisualizerV2/)) in your browser. The visualizer will ask you to select an audio or video file. <br>
 After selecting the file, the visualizer will start playing the file and creating an animation based on the music
 
 </details>

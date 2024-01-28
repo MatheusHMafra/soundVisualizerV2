@@ -132,11 +132,11 @@ label.file.normal {
 }
 
 #playpause.play::before {
-    content: "\25B6";
+    content: "\275A\275A";
 }
 
 #playpause.pause::before {
-    content: "\275A\275A";
+    content: "\25B6";
 }
 
 #volume {

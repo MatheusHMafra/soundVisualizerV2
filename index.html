@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/icon.ico" type="image/x-icon" />
+
+    <link rel="stylesheet" href="static/style.css">
+
+    <title>Sound Visualizer Three.js</title>
+</head>
+
+<body>
+    <div id="content">
+
+        <label for="thefile" class="file"> Escolha um arquivo de áudio
+            <input type="file" id="thefile" accept="audio/*,video/*" />
+        </label>
+
+        <audio id="audio"></audio>
+
+        <div id="customaudiocontrol" style="display: none;">
+            <div id="timeleft">00:00</div>
+            <div id="controls">
+                <div id="playpause">
+                    <div class="play" id="play"></div>
+                    <div class="pause" id="pause"></div>
+                </div>
+
+                <div id="volume">
+                    <label for="volume-slider" id="audiovolume">100%</label>
+                    <input type="range" id="volume-slider" min="0" max="100" step="1" />
+                </div>
+            </div>
+        </div>
+        <div id="out"></div>
+    </div>
+</body>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.3/dat.gui.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.3.0/simplex-noise.min.js'></script>
+<script src="static/main.js"></script>
+
+</html>

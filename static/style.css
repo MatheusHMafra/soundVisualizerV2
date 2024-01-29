@@ -124,7 +124,7 @@ label.file.normal {
 
 /* Custom play and pause icons */
 #playpause::before {
-    content: "\25B6";
+    content: "\275A\275A";
     /* Unicode play icon */
     font-size: 20px;
     color: #b027bd;

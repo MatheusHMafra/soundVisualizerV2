@@ -1,5 +1,9 @@
 var noise = new SimplexNoise();
 
+var context;
+var src;
+var analyser;
+
 // Config
 var config = {
     circleWireframe: true,
@@ -33,8 +37,7 @@ if (window.location.href.split('/')[3].includes("?")) {
 }
 
 // Audio
-var vizInit = function () {
-
+var Init = function () {
     var file = document.getElementById("thefile");
     var audio = document.getElementById("audio");
     var fileLabel = document.querySelector("label.file");
@@ -51,6 +54,10 @@ var vizInit = function () {
     }
 
     file.onchange = function () {
+        // Start the audio context if it's not already started
+        if (!context) context = new AudioContext();
+        if (!analyser) analyser = context.createAnalyser();
+
         fileLabel.classList.add('normal');
         audio.classList.add('active');
         var files = this.files;
@@ -61,6 +68,7 @@ var vizInit = function () {
             audio.load();
             audio.play();
         } else if (files[0].type.startsWith('video')) {
+            // Handle video file
             const reader = new FileReader();
             reader.onload = function (e) {
                 audio.src = URL.createObjectURL(files[0]);
@@ -68,10 +76,12 @@ var vizInit = function () {
                 audio.play();
             };
             reader.readAsDataURL(files[0]);
+        } else {
+            alert('Please select an audio or video file');
         }
 
         play();
-        // Change the audio volume to 0.5
+        // Change the audio volume to 0.25
         audio.volume = 0.25;
 
         // Check if the audio metadata is loaded
@@ -123,9 +133,11 @@ var vizInit = function () {
     }
 
     function play() {
-        var context = new AudioContext();
-        var src = context.createMediaElementSource(audio);
-        var analyser = context.createAnalyser();
+        if (!src) {
+            src = context.createMediaElementSource(audio);
+            src.connect(analyser);
+            analyser.connect(context.destination);
+        }
         src.connect(analyser);
         analyser.connect(context.destination);
         analyser.fftSize = 512;
@@ -166,7 +178,6 @@ var vizInit = function () {
         var ball = new THREE.Mesh(icosahedronGeometry, lambertMaterial);
         ball.position.set(0, 0, 0);
         group.add(ball);
-
         var ambientLight = new THREE.AmbientLight(0xaaaaaa);
         scene.add(ambientLight);
 
@@ -191,15 +202,10 @@ var vizInit = function () {
             var lowerHalfArray = dataArray.slice(0, (dataArray.length / 2) - 1);
             var upperHalfArray = dataArray.slice((dataArray.length / 2) - 1, dataArray.length - 1);
 
-            //var overallAvg = avg(dataArray);
             var lowerMax = max(lowerHalfArray);
-            //var lowerAvg = avg(lowerHalfArray);
-            //var upperMax = max(upperHalfArray);
             var upperAvg = avg(upperHalfArray);
 
             var lowerMaxFr = lowerMax / lowerHalfArray.length;
-            //var lowerAvgFr = lowerAvg / lowerHalfArray.length;
-            //var upperMaxFr = upperMax / upperHalfArray.length;
             var upperAvgFr = upperAvg / upperHalfArray.length;
 
             makeRoughGround(plane, modulate(upperAvgFr, 0, 1, 0.5, 4));
@@ -207,7 +213,8 @@ var vizInit = function () {
 
             makeRoughBall(ball, modulate(Math.pow(lowerMaxFr, 0.8), 0, 1, 0, 8), modulate(upperAvgFr, 0, 1, 0, 4));
 
-            group.rotation.y += 0.005;
+            // Verify if the audio is playing
+            if (isPlaying) { group.rotation.x += 0.001; group.rotation.y += 0.001; }
             renderer.render(scene, camera);
             requestAnimationFrame(render);
         }
@@ -224,7 +231,7 @@ var vizInit = function () {
             var hue = (time % 1);
             var saturation = colorRange + modulate(bassFr, 0, 1, 0, 0.5);
             var lightness = Math.sin(time * 0.001) * 0.5 + 0.75;
-            
+
             var color = new THREE.Color().setHSL(hue, saturation, lightness);
 
             mesh.material.color = color;
@@ -278,7 +285,7 @@ var vizInit = function () {
         }, false);
     };
 }
-window.onload = vizInit();
+window.onload = Init();
 
 document.body.addEventListener('touchend', function (ev) { context.resume(); });
 
